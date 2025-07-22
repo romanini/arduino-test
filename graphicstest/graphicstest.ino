@@ -46,15 +46,12 @@ void setup() {
 
   vspi = new SPIClass(FSPI);
   vspi->begin(VSPI_SCLK, VSPI_MISO, VSPI_MOSI, VSPI_SS);  //SCLK, MISO, MOSI, SS
-  tft.begin();
-
-
   // Pass our SPIClass pointer to the HX8357 constructor:
 // SoftSPI - note that on some processors this might be *faster* than hardware SPI!
 //Adafruit_HX8357 tft = Adafruit_HX8357(TFT_CS, TFT_DC, MOSI, SCK, TFT_RST, MISO);
 
 
-  tft.begin();
+  tft.begin(vspi);
 
   // read diagnostics (optional but can help debug problems)
   uint8_t x = tft.readcommand8(HX8357_RDPOWMODE);
