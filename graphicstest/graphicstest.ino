@@ -44,7 +44,7 @@ void setup() {
   Serial.begin(9600);
   Serial.println("HX8357D Test!"); 
 
-  vspi = new SPIClass(VSPI);
+  vspi = new SPIClass(FSPI);
   vspi->begin(VSPI_SCLK, VSPI_MISO, VSPI_MOSI, VSPI_SS);  //SCLK, MISO, MOSI, SS
   tft.begin(vspi);
 
