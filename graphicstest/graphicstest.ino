@@ -18,30 +18,35 @@
 #include "Adafruit_HX8357.h"
 
 // These are 'flexible' lines that can be changed
-#define TFT_CS D10
-#define TFT_DC D9
-#define TFT_RST 0
-#define VSPI_MISO D11
-#define VSPI_MOSI D12
-#define VSPI_SCLK D13
-#define VSPI_SS D10
+#define TFT_CS 10
+#define TFT_DC 9
+#define TFT_RST 8
+
+// The ESP32 has two SPI buses, VSPI and HSPI. VSPI is used by default.
+// The default VSPI pins are:
+// MISO: 19
+// MOSI: 23
+// SCLK: 18
+// CS: 5
+// These pins can be remapped, but we'll use the defaults.
+#define VSPI_MISO 19
+#define VSPI_MOSI 23
+#define VSPI_SCLK 18
+#define VSPI_SS 5
 
 SPIClass* vspi = NULL;
 
 
-Adafruit_HX8357 tft = Adafruit_HX8357(vspi, TFT_CS, TFT_DC, TFT_RST);
+Adafruit_HX8357 tft = Adafruit_HX8357(TFT_CS, TFT_DC, TFT_RST);
 
-// Now tell it which pins map to SCK, MISO, MOSI and (optionally) SS
-// Here we keep your old wires on D11, D12, D13:
-//   D11→GPIO11, D12→GPIO12, D13→GPIO13  (won’t be true hardware SPI pins,
-//   but we can bit‑bang them via this constructor)
+
 void setup() {
   Serial.begin(9600);
   Serial.println("HX8357D Test!"); 
 
-  vspi = new SPIClass(FSPI);
+  vspi = new SPIClass(VSPI);
   vspi->begin(VSPI_SCLK, VSPI_MISO, VSPI_MOSI, VSPI_SS);  //SCLK, MISO, MOSI, SS
-  Adafruit_HX8357 tft = Adafruit_HX8357(vspi, TFT_CS, TFT_DC, TFT_RST);
+  tft.begin(vspi);
 
 
   // Pass our SPIClass pointer to the HX8357 constructor:
