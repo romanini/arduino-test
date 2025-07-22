@@ -46,7 +46,7 @@ void setup() {
 
   vspi = new SPIClass(FSPI);
   vspi->begin(VSPI_SCLK, VSPI_MISO, VSPI_MOSI, VSPI_SS);  //SCLK, MISO, MOSI, SS
-  tft.begin(vspi);
+  tft.begin();
 
 
   // Pass our SPIClass pointer to the HX8357 constructor:
